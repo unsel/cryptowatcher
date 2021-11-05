@@ -1,0 +1,27 @@
+.homePage {
+  margin-top: 40px;
+
+  .cryptoWatcher {
+    font-size: 30px;
+    font-weight: 500;
+  }
+
+  .searchWrapper {
+    display: flex;
+    max-width: 750px;
+    margin: 40px auto 70px;
+    border: 1px solid #e3e9f4;
+    background: #fff;
+    box-shadow: 0 7px 30px rgb(69, 11, 149);
+
+    .actionChoice {
+      min-width: 170px;
+    }
+    .currencyChoice {
+      min-width: 400px;
+    }
+    .searchButton {
+      min-width: 120px;
+    }
+  }
+}
