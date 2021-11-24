@@ -4,6 +4,7 @@ import './homepage.scss';
 import Button from '@mui/material/Button';
 import Select from 'react-select'
 import {useNavigate} from 'react-router-dom';
+import Auth from '@aws-amplify/auth';   
 const HomePage = () => {
   
     const [actionOption,setActionOption] = useState("buy")
@@ -19,7 +20,6 @@ const HomePage = () => {
         { value: 'ethereum', label: 'Ethereum' },
         { value: 'doge', label: 'Doge' }
     ]
-
     const handleChange = (e,type) => {
         if(type == "action"){
             setActionOption(e.value)

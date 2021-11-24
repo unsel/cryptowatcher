@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.amplify-authenticator {
+  padding: 40px;
+}
+
+.amplifySignOut {
+  width: 50px;
+}
+.amplifyAuthenticator {
+  border: 5px solid black;
+}
