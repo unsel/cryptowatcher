@@ -59,6 +59,7 @@ return (
     <ScrollToTop/>
     <Routes>
       <Route exact path='/' element={<HomePage/>}/>
+      <Redirect to="/" />
     </Routes>
     </BrowserRouter>
   
