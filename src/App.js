@@ -1,8 +1,10 @@
 import React,{useState,useEffect} from 'react';
 import {BrowserRouter, Routes,Route} from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
+import NavBar from './components/AppBar/navbar';
 import HomePage from './pages/homepage/homepage.jsx';
 import Modal from './components/Modal/modal.jsx';
+
 import './App.scss';
 
 import Amplify from 'aws-amplify';
@@ -24,9 +26,21 @@ const App = () => {
       });
   }, []);
 
+  const handleAuthStateChange = ((nextAuthState, authData) => {
+    if (nextAuthState === AuthState.SignedIn) {
+      console.log("user successfully signed in!");
+      console.log("user data: ", authData);
+    }
+    if (authData) {
+      console.log("authData: ", authData);
+    }
+  });
+
 return (
   <div className="App">
-    <Button variant="contained" onClick={()=>setRenderAuthenticator(!renderAuthenticator)}>SIGN IN</Button>
+    {authState}
+    {AuthState.SignedIn}
+    <NavBar toggleSign={()=>setRenderAuthenticator(!renderAuthenticator)}/>
     {authState === AuthState.SignedIn && user ? (
     <div >
         <div>Hello, {user.username} </div>
@@ -48,7 +62,7 @@ return (
   (
     <Modal show={renderAuthenticator} modalClosed={()=>setRenderAuthenticator() } modalType='Modal1'>
         <div className="amplifyAuthenticator">
-          <AmplifyAuthenticator>
+          <AmplifyAuthenticator handleAuthStateChange={handleAuthStateChange}>
             <AmplifySignUp
               slot="sign-up"
               formFields={[

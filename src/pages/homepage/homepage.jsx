@@ -29,9 +29,9 @@ const HomePage = () => {
     }
     return(
         <div className="homePage">
-            <div className="cryptoWatcher">
+            {/* <div className="cryptoWatcher">
                 CRYPTOWATCHER
-            </div>
+            </div> */}
             <div className="searchWrapper">
                 <div className="actionChoice">
                     <Select 
