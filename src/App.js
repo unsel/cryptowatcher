@@ -26,6 +26,10 @@ const App = () => {
       });
   }, []);
 
+  useEffect(() => {
+    setRenderAuthenticator(false)
+  }, [authState]);
+
   const handleAuthStateChange = ((nextAuthState, authData) => {
     if (nextAuthState === AuthState.SignedIn) {
       console.log("user successfully signed in!");
@@ -40,14 +44,14 @@ return (
   <div className="App">
     {authState}
     {AuthState.SignedIn}
-    <NavBar toggleSign={()=>setRenderAuthenticator(!renderAuthenticator)}/>
+    <NavBar toggleSign={()=>setRenderAuthenticator(!renderAuthenticator)} signedIn={authState === AuthState.SignedIn && user}/>
     {authState === AuthState.SignedIn && user ? (
     <div >
         <div>Hello, {user.username} </div>
         <button onClick={()=> console.log(user)}> Click this button to print user info</button>
-        <div className="amplifySignOut">
+        {/* <div className="amplifySignOut">
           <AmplifySignOut />
-        </div>
+        </div> */}
     </div>
   ) : null}
   
