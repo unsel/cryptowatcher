@@ -1,9 +1,12 @@
 import React,{useState,useEffect} from 'react';
-import {BrowserRouter, Routes,Route} from 'react-router-dom';
+import { Routes,Route,Navigate} from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
-import NavBar from './components/AppBar/navbar';
-import HomePage from './pages/homepage/homepage.jsx';
+import NavBar from './components/Navbar/navbar';
+import HomePage from './pages/Homepage/homepage.jsx';
 import Modal from './components/Modal/modal.jsx';
+import Converter from './pages/Converter/converter';
+import Wallet from './pages/Wallet/wallet';
+import Exchanges from './pages/Exchanges/exchanges';
 
 import './App.scss';
 
@@ -42,26 +45,21 @@ const App = () => {
 
 return (
   <div className="App">
-    {authState}
-    {AuthState.SignedIn}
     <NavBar toggleSign={()=>setRenderAuthenticator(!renderAuthenticator)} signedIn={authState === AuthState.SignedIn && user}/>
     {authState === AuthState.SignedIn && user ? (
     <div >
         <div>Hello, {user.username} </div>
         <button onClick={()=> console.log(user)}> Click this button to print user info</button>
-        {/* <div className="amplifySignOut">
-          <AmplifySignOut />
-        </div> */}
     </div>
   ) : null}
   
-    <BrowserRouter>
     <ScrollToTop/>
     <Routes>
       <Route exact path='/' element={<HomePage/>}/>
-      <Redirect to="/" />
+      <Route exact path='/converter' element={<Converter/>}/>
+      <Route exact path='/wallet' element={<Wallet/>}/>
+      <Route exact path='/exchanges' element={<Exchanges/>}/>
     </Routes>
-    </BrowserRouter>
   
   { authState !== AuthState.SignedIn && renderAuthenticator? 
   (

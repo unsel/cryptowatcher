@@ -4,13 +4,13 @@ import './navbar.scss';
 import { Button } from '@mui/material';
 import { AmplifySignOut } from '@aws-amplify/ui-react';
 import logo from'../../images/logoo.png';
+import {Link} from 'react-router-dom';
 
 const NavBar = (props) => {
     return (
      <div className="navbar">
          {/* <div><img src={logo} className='logo'/></div> */}
-         <div className="cryptoWatcher"> CRYPTOWATCHER</div>
-
+         <Link to='/converter'><div className="cryptoWatcher"> CRYPTOWATCHER</div></Link>
          <Link to='/converter'><div><Button variant="contained">Price Converter</Button></div></Link>
          <Link to='/wallet'><div><Button variant="contained">Show My Wallet</Button> </div></Link>
          <Link to='/exchange'><div><Button variant="contained">Exchange Info</Button> </div></Link> 
