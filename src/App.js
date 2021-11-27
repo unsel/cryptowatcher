@@ -29,9 +29,9 @@ const App = () => {
       });
   }, []);
 
-  useEffect(() => {
-    setRenderAuthenticator(false)
-  }, [authState]);
+  // useEffect(() => {
+  //   setRenderAuthenticator(false)
+  // }, [authState]);
 
   const handleAuthStateChange = ((nextAuthState, authData) => {
     if (nextAuthState === AuthState.SignedIn) {

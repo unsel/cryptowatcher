@@ -15,8 +15,7 @@ const NavBar = (props) => {
          <Link to='/wallet'><div><Button variant="contained">Show My Wallet</Button> </div></Link>
          <Link to='/exchange'><div><Button variant="contained">Exchange Info</Button> </div></Link> 
          <Link to='/other'><div><Button variant="contained">Other Page</Button></div></Link>
-         <div><Button variant="contained" onClick={()=>props.toggleSign()}>SIGN IN</Button></div>
-         {props.signedIn ? <div><AmplifySignOut/></div> : null}
+         {props.signedIn ? <div><AmplifySignOut/></div> : <div><Button variant="contained" onClick={()=>props.toggleSign()}>SIGN IN</Button></div>}
      </div>
     );
 }
