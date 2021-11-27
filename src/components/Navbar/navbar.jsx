@@ -10,7 +10,7 @@ const NavBar = (props) => {
     return (
      <div className="navbar">
          {/* <div><img src={logo} className='logo'/></div> */}
-         <Link to='/converter'><div className="cryptoWatcher"> CRYPTOWATCHER</div></Link>
+         <Link to='/'><div className="cryptoWatcher"> CRYPTOWATCHER</div></Link>
          <Link to='/converter'><div><Button variant="contained">Price Converter</Button></div></Link>
          <Link to='/wallet'><div><Button variant="contained">Show My Wallet</Button> </div></Link>
          <Link to='/exchange'><div><Button variant="contained">Exchange Info</Button> </div></Link> 
