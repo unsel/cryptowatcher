@@ -12,7 +12,7 @@ const Wallet = (props) => {
     const [charts,setCharts] = useState(['doughnut','pie'])
 
     const [data,setData] = useState({
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: ['Bitcoin', 'Ethereum', 'Solana', 'XRP', 'ShibaINU', 'Litecoin'],
         datasets: [
           {
             label: '# of Votes',
