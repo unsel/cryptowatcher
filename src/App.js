@@ -7,7 +7,7 @@ import Modal from './components/Modal/modal.jsx';
 import Converter from './pages/Converter/converter';
 import Wallet from './pages/Wallet/wallet';
 import Exchanges from './pages/Exchanges/exchanges';
-
+import axios from 'axios';
 import './App.scss';
 
 import Amplify from 'aws-amplify';
@@ -21,6 +21,8 @@ const App = () => {
   const [authState, setAuthState] = useState();
   const [user, setUser] = useState();
   const [renderAuthenticator,setRenderAuthenticator] = useState(false);
+  const [currencyData,setCurrencyData] = useState({})
+  
 
   useEffect(() => {
       return onAuthUIStateChange((nextAuthState, authData) => {
@@ -29,9 +31,23 @@ const App = () => {
       });
   }, []);
 
-  // useEffect(() => {
-  //   setRenderAuthenticator(false)
-  // }, [authState]);
+  useEffect(() => {
+    axios.get("https://99gz9lge5l.execute-api.us-east-2.amazonaws.com/default/getAllCurrencies2")
+      .then(response => {
+          return response.data
+        })
+        .then(data => {
+          console.log(data)
+          setCurrencyData(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+  }, []);
+
+  useEffect(() => {
+    setRenderAuthenticator(false)
+  }, [authState]);
 
   const handleAuthStateChange = ((nextAuthState, authData) => {
     if (nextAuthState === AuthState.SignedIn) {
@@ -55,7 +71,7 @@ return (
   
     <ScrollToTop/>
     <Routes>
-      <Route exact path='/' element={<HomePage/>}/>
+      <Route exact path='/' element={<HomePage currencyData={currencyData}/>}/>
       <Route exact path='/converter' element={<Converter/>}/>
       <Route exact path='/wallet' element={<Wallet/>}/>
       <Route exact path='/exchanges' element={<Exchanges/>}/>

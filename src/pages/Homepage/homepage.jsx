@@ -6,14 +6,14 @@ import Select from 'react-select'
 import CryptoTable from '../../components/CryptoTable/cryptotable';
 import {useNavigate} from 'react-router-dom';
 import icon1 from '../../images/1.png'
-const HomePage = () => {
+const HomePage = (props) => {
   
     
     return(
         <div className="homePage">
            
            <div>
-                <CryptoTable/>
+                <CryptoTable currencyData={props.currencyData}/>
            </div>
            
         </div>
