@@ -1,16 +1,10 @@
 .converter {
-  .leftConverter,
-  .rightConverter {
-    display: inline-block;
+  .convertText {
+    font-size: 30px;
+    color: blue;
     margin: 30px;
-    width: 30%;
-
-    .currencyChoice {
-      margin: 30px;
-    }
   }
-
-  .threesixtyIcon {
-    margin-bottom: -15px;
+  .logoImage {
+    margin: 5px;
   }
 }
