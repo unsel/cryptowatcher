@@ -1,0 +1,35 @@
+{
+  "paths": [
+    {
+      "name": "/cryptowatcherREST",
+      "lambdaFunction": "walletLambda",
+      "privacy": {
+        "open": true
+      },
+      "policyResourceName": "/cryptowatcherREST"
+    }
+  ],
+  "resourceName": "cryptoapp",
+  "apiName": "cryptoapp",
+  "functionArns": [
+    {
+      "lambdaFunction": "walletLambda"
+    }
+  ],
+  "privacy": {
+    "auth": 0,
+    "unauth": 0,
+    "authRoleName": "amplify-amplify872e5ac1a35e4-staging-192245-authRole",
+    "unAuthRoleName": "amplify-amplify872e5ac1a35e4-staging-192245-unauthRole"
+  },
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "walletLambda",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    }
+  ]
+}

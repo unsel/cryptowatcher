@@ -228,7 +228,9 @@ const App = () => {
   // }, []);
 
   useEffect(() => {
-    setRenderAuthenticator(false)
+    if(authState=='signedin' || authState=='signedup'){
+      setRenderAuthenticator(false)
+    }
   }, [authState]);
 
   const handleAuthStateChange = ((nextAuthState, authData) => {
@@ -236,13 +238,12 @@ const App = () => {
       console.log("user successfully signed in!");
       console.log("user data: ", authData);
     }
-    if (authData) {
-      console.log("authData: ", authData);
-    }
   });
 
 return (
   <div className="App">
+    {renderAuthenticator? 'true' : 'false'}
+    {authState}
     <NavBar toggleSign={()=>setRenderAuthenticator(!renderAuthenticator)} signedIn={authState === AuthState.SignedIn && user}/>
     {authState === AuthState.SignedIn && user ? (
     <div >
@@ -255,13 +256,13 @@ return (
     <Routes>
       <Route exact path='/' element={<HomePage currencyData={currencyData}/>}/>
       <Route exact path='/converter' element={<Converter currencyData={currencyData}/>}/>
-      <Route exact path='/wallet' element={<Wallet currencyData={currencyData}/>}/>
+      <Route exact path='/wallet' element={<Wallet currencyData={currencyData} userData={user}/>}/>
       <Route exact path='/exchanges' element={<Exchanges/>}/>
     </Routes>
   
-  { authState !== AuthState.SignedIn && renderAuthenticator? 
+  { renderAuthenticator? 
   (
-    <Modal show={renderAuthenticator} modalClosed={()=>setRenderAuthenticator() } modalType='Modal1'>
+    <Modal show={renderAuthenticator} modalClosed={()=>setRenderAuthenticator(false) } modalType='Modal1'>
         <div className="amplifyAuthenticator">
           <AmplifyAuthenticator handleAuthStateChange={handleAuthStateChange}>
             <AmplifySignUp

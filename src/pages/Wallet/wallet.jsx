@@ -1,15 +1,16 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 
 import './wallet.scss';
 import { Button } from '@mui/material';
-
+import axios from 'axios';
 import Charts from '../../components/Charts/charts';
 
 
 const Wallet = (props) => {
 
     const [charts,setCharts] = useState(['doughnut','pie'])
-
+    const [fetching,setFetching] = useState(true)
+    const [temp,setTemp] = useState({})
     const [data,setData] = useState({
         labels: ['Bitcoin', 'Ethereum', 'Solana', 'XRP', 'ShibaINU', 'Litecoin'],
         datasets: [
@@ -36,9 +37,70 @@ const Wallet = (props) => {
           },
         ],
       })
+
+      useEffect(() => {
+        setFetching(true)
+        if(props.userData){
+          let sub = props.userData['attributes']['sub']
+          axios.get(`https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items/${sub}`)
+          .then(response => {
+              return response.data
+            })
+            .then(data => {
+              setTemp(data)
+              console.log(data)
+            }).then(()=>{
+              setFetching(false)
+            })
+            .catch(error => {
+              console.log(error)
+          })
+        }
+      }, [props.userData]);
+
+
+    const fetchWallet = () => {
+      axios.get("https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items")
+        .then(response => {
+            return response.data
+          })
+          .then(data => {
+            console.log(data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+    };
+
+    const saveWallet = () => {
+      const tempWallet = { 
+        "id":"five",
+        "wallet": {
+          "bitcoin" : 3,
+          "ethereum": 3,
+          "litecoin": 3,
+          "solana": 3
+        }     
+      };
+      axios.put("https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items",tempWallet)
+        .then(response => {
+            return response.data
+          })
+          .then(data => {
+            console.log(data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+    };
+
     return (
      <div className="wallet">
          <div> WELCOME TO THE Wallet PAGE</div>
+         <div><button onClick={()=>fetchWallet()}> fetch wallets</button></div>
+         <div><button onClick={()=>saveWallet()}> save wallets</button></div>
+         <div><button onClick={()=>console.log(temp)}> print temp data</button></div>
+         <div><button onClick={()=>console.log(props.userData)}> print user data</button></div>
          <Charts charts={charts} data={data}/>
          
      </div>

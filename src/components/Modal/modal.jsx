@@ -9,7 +9,7 @@ const Modal = props => {
 
   return (
     <div>
-      <Backdrop show={props.show} clicked={props.modalClosed} modalType={props.modalType}/>
+      <Backdrop show={props.show} clicked={()=>{props.modalClosed()}} modalType={props.modalType}/>
       <div
         className={modalClass.join(' ')}
         style={{
