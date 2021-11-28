@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import { Routes,Route,Navigate} from 'react-router-dom';
+import { Routes,Route} from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import NavBar from './components/Navbar/navbar';
 import HomePage from './pages/Homepage/homepage.jsx';
@@ -11,9 +11,8 @@ import axios from 'axios';
 import './App.scss';
 
 import Amplify from 'aws-amplify';
-import { AmplifyAuthenticator, AmplifySignUp, AmplifySignOut } from '@aws-amplify/ui-react';
+import { AmplifyAuthenticator, AmplifySignUp } from '@aws-amplify/ui-react';
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
-import { Button } from '@mui/material';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 
@@ -72,8 +71,8 @@ return (
     <ScrollToTop/>
     <Routes>
       <Route exact path='/' element={<HomePage currencyData={currencyData}/>}/>
-      <Route exact path='/converter' element={<Converter/>}/>
-      <Route exact path='/wallet' element={<Wallet/>}/>
+      <Route exact path='/converter' element={<Converter currencyData={currencyData}/>}/>
+      <Route exact path='/wallet' element={<Wallet currencyData={currencyData}/>}/>
       <Route exact path='/exchanges' element={<Exchanges/>}/>
     </Routes>
   

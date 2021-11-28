@@ -2,7 +2,6 @@ import React,{useState} from 'react';
 
 import './wallet.scss';
 import { Button } from '@mui/material';
-import {Link} from 'react-router-dom';
 
 import Charts from '../../components/Charts/charts';
 

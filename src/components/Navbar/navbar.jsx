@@ -3,7 +3,6 @@ import React from 'react';
 import './navbar.scss';
 import { Button } from '@mui/material';
 import { AmplifySignOut } from '@aws-amplify/ui-react';
-import logo from'../../images/logoo.png';
 import {Link} from 'react-router-dom';
 
 import axios from 'axios';

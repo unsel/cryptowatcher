@@ -1,23 +1,21 @@
 import React,{useState,useEffect} from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import './cryptotable.scss';
-import axios from 'axios';
 
 const DataTable = (props) => {
 
     const [rows,setRows] = useState([])
     const [fetching,setFetching] = useState(true)
-    const ourKeys = ['name', 'price','percent_change_24h','market_cap','volume_24h','circulating_supply','logo','graph']
     const columns = [
         { field: 'id', headerName: 'ID', width: 60 },
-        { field: 'logo',headerName: 'Logo',width: 70, editable: true, renderCell: (params) => <img className="currencyLogo" src={params.value} />},
+        { field: 'logo',headerName: 'Logo',width: 70, editable: true, renderCell: (params) => <img alt="currenyLogo" className="currencyLogo" src={params.value} />},
         { field: 'name', headerName: 'Name', width: 100 },
         { field: 'price', headerName: 'Price ($)', width: 130 },
         { field: 'percent_change_24h', headerName: '24h%', width: 90 },
         { field: 'market_cap', headerName: 'Market Cap ($)', width: 180 },
         { field: 'volume_24h', headerName: 'Volume(24h)($)', width: 180 },
         { field: 'circulating_supply', headerName: 'Circulating Supply', width: 150 },
-        { field: 'graph',headerName: 'Last 7 Days',width: 190,editable: true,renderCell: (params) => <img src={params.value} />},
+        { field: 'graph',headerName: 'Last 7 Days',width: 190,editable: true,renderCell: (params) => <img alt="currenyGraph" src={params.value} />},
     ];
     //   RETURNED DATA FOR NOW
     // market_cap: 1019665917733.3303
@@ -33,8 +31,9 @@ const DataTable = (props) => {
     // volume_change_24h: -29.2898
     //===============================
    
-    useEffect(async() => {
+    useEffect(() => {
       setFetching(true)
+      const ourKeys = ['name', 'price','percent_change_24h','market_cap','volume_24h','circulating_supply','logo','graph']
       if(Object.keys(props.currencyData).length !== 0) {
         let currencyDataList=[]
         let id=1
@@ -51,7 +50,7 @@ const DataTable = (props) => {
           currencyDataList.push(temp)
         }
     
-        Promise.resolve(setRows(currencyDataList)).then(()=>setFetching(false))
+       Promise.resolve(setRows(currencyDataList)).then(()=>setFetching(false))
       }
       
         // setRows([{ id: 1, name: 'Bitcoin', price:57569,dailyChange: +1.47,marketCap:"1,038,645,607,815",dailyVolume:"31,315,223,996",circulatingSupply:"18,884,712", logo:"https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",graph:"https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/1.svg"},

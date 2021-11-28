@@ -1,9 +1,6 @@
 import React,{useState,useEffect} from 'react';
 
 import './converter.scss';
-import { Button } from '@mui/material';
-import {Link} from 'react-router-dom';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Select from 'react-select'
 import ThreeSixtyIcon from '@mui/icons-material/ThreeSixty';
@@ -13,7 +10,6 @@ const Converter = (props) => {
     const [rightOption,setRightOption] = useState("ethereum")
     const [leftAmount,setLeftAmount] = useState()
     const [rightAmount,setRightAmount] = useState()
-    const [lastModified,setLastModified] = useState('left')
     const [values,setValues] = useState({})
 
     useEffect(() => {
@@ -31,33 +27,22 @@ const Converter = (props) => {
     ]  
 
     const handleOptionChange = (e,type) => {
-        if(type == "left"){
+        if(type === "left"){
             setLeftOption(e.value)
         } else {
             setRightOption(e.value)
         }
     }
     const handleAmountChange = (e,type) => {
-        if(type == "left"){
-            setLastModified('left')
+        if(type === "left"){
             setLeftAmount(e.target.value)
             setRightAmount(e.target.value*(values[rightOption]/values[leftOption]))
-            console.log("left amount is"+leftAmount+" lft*rght/left = "+ e.target.value*(values[rightOption]/values[leftOption]))
             
         } else {
-            console.log("right amount changed")
-            setLastModified('right')
             setRightAmount(e.target.value)
             setLeftAmount(e.target.value*(values[leftOption]/values[rightOption]))
         }
     }
-
-    // const changeSides = () =>{
-    //     const leftOpt = leftOption
-    //     const leftAmnt = leftAmount
-    //     const rightOpt = rightOption
-    //     const rightAmnt = rightAmount
-    // }
 
     return (
      <div className="converter">
