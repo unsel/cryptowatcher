@@ -228,7 +228,7 @@ const App = () => {
   // }, []);
 
   useEffect(() => {
-    if(authState=='signedin' || authState=='signedup'){
+    if(authState==='signedin' || authState==='signedup'){
       setRenderAuthenticator(false)
     }
   }, [authState]);
@@ -242,13 +242,11 @@ const App = () => {
 
 return (
   <div className="App">
-    {renderAuthenticator? 'true' : 'false'}
-    {authState}
     <NavBar toggleSign={()=>setRenderAuthenticator(!renderAuthenticator)} signedIn={authState === AuthState.SignedIn && user}/>
     {authState === AuthState.SignedIn && user ? (
     <div >
         <div>Hello, {user.username} </div>
-        <button onClick={()=> console.log(user)}> Click this button to print user info</button>
+        <button onClick={()=> console.log(user)}> Print user info</button>
     </div>
   ) : null}
   

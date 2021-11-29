@@ -69,7 +69,7 @@ const Wallet = (props) => {
       const pushWalletInfo = () => {
         let count = Object.entries(temp['Item']['wallet']).length
         let labels=[]
-        let index = 1
+        // let index = 1
         let datasets =  [{
           label: ' USD Equivalent',
           data: [], 

@@ -1,19 +1,15 @@
 import React,{useState,useEffect} from 'react';
 
 import './converter.scss';
-import TextField from '@mui/material/TextField';
-import Select from 'react-select'
+
 import { Button } from '@mui/material';
-import ThreeSixtyIcon from '@mui/icons-material/ThreeSixty';
+
 import ConverterComponent from '../../components/Converter/converter';
 
 const Converter = (props) => {
 
-    const [leftOption,setLeftOption] = useState("bitcoin")
-    const [rightOption,setRightOption] = useState("ethereum")
+   
     const [converterCount,setConverterCount] = useState(1)
-    const [leftAmount,setLeftAmount] = useState()
-    const [rightAmount,setRightAmount] = useState()
     const [values,setValues] = useState({})
     const [logos,setLogos] = useState([])
 
@@ -29,22 +25,6 @@ const Converter = (props) => {
         setValues(valuesDict)
         setLogos(logosArr)
     }, [props.currencyData]);
-
-    const currencyOptions = [
-        { value: 'USD', label: 'USD'},
-        { value: 'Bitcoin', label: 'Bitcoin' },
-        { value: 'Ethereum', label: 'Ethereum' },
-        { value: 'Litecoin', label: 'Litecoin'},
-        { value: 'Binance Coin', label: 'Binance Coin'},
-        { value: 'XRP', label: 'XRP' },
-        { value: 'Cardano', label: 'Cardano' },
-        { value: 'Dogecoin', label: 'Dogecoin' },
-        { value: 'Solana', label: 'Solana' },
-        { value: 'SHIBA INU', label: 'SHIBA INU'},
-        { value: 'Terracoin', label: 'Terracoin'},
-        { value: 'Avalanche', label: 'Avalanche' },
-        { value: 'Quark', label: 'Quark' }
-    ]  
 
     return (
      <div className="converter">
