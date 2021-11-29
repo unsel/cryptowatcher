@@ -3,6 +3,8 @@ import React,{useState,useEffect} from 'react';
 import './wallet.scss';
 import { Button,CircularProgress } from '@mui/material';
 import axios from 'axios';
+import TextField from '@mui/material/TextField';
+import Select from 'react-select'
 import Charts from '../../components/Charts/charts';
 
 
@@ -10,12 +12,30 @@ const Wallet = (props) => {
 
     const [charts,setCharts] = useState(['doughnut','pie'])
     const [fetching,setFetching] = useState(true)
+    const [coinWallet,setCoinWallet] = useState([{'name':'Solana','amount':15}])
+    const [coinOptions,setCoinOptions] = useState(
+      [
+        { value: 'USD', label: 'USD'},
+        { value: 'Bitcoin', label: 'Bitcoin' },
+        { value: 'Ethereum', label: 'Ethereum' },
+        { value: 'Litecoin', label: 'Litecoin'},
+        { value: 'Binance Coin', label: 'Binance Coin'},
+        { value: 'XRP', label: 'XRP' },
+        { value: 'Cardano', label: 'Cardano' },
+        { value: 'Dogecoin', label: 'Dogecoin' },
+        { value: 'Solana', label: 'Solana' },
+        { value: 'SHIBA INU', label: 'SHIBA INU'},
+        { value: 'Terracoin', label: 'Terracoin'},
+        { value: 'Avalanche', label: 'Avalanche' },
+        { value: 'Quark', label: 'Quark' }
+     ] 
+    )
     const [temp,setTemp] = useState({})
     const [data,setData] = useState({
         labels: ['Bitcoin', 'Ethereum', 'Solana', 'XRP', 'ShibaINU', 'Litecoin'],
         datasets: [
           {
-            label: '# of Votes',
+            label: 'USD Equivalent',
             data: [12, 19, 3, 5, 2, 3],
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
@@ -146,6 +166,19 @@ const Wallet = (props) => {
           })
     };
 
+    const handleOptionChange = (e) => {
+      let arr =[...coinOptions]
+      arr.splice(arr.findIndex(v => v.value === e.value), 1);
+      setCoinOptions(arr)
+      setCoinWallet([...coinWallet].push({'name':e.value,'amount':0}))
+    }
+
+    const handleAmountChange = (e,i) =>  {
+      let arr = [...coinWallet]
+      arr[i]['amount'] = e.target.value
+      setCoinWallet(arr)
+    }
+
     return (
      <div className="wallet">
          <div> WELCOME TO THE Wallet PAGE</div>
@@ -155,7 +188,36 @@ const Wallet = (props) => {
          <div><button onClick={()=>console.log(props.userData)}> print user data</button></div>
          <div><button onClick={()=>console.log(props.currencyData)}> print currency data</button></div>
          <div><button onClick={()=> pushWalletInfo()}> PUSH</button></div>
-        
+         {/* <div><button onClick={()=> setCoinCount(coinCount+1)}> Add CoinType</button></div> */}
+         
+          
+          <div className="coinOption">
+            <Select 
+                options={coinOptions}
+                // defaultValue={currencyOptions[0]}
+                label
+                onChange={e => handleOptionChange(e)}
+                name="Action"
+                className="basic-multi-select"
+                classNamePrefix="select" />
+          </div>
+
+          { coinWallet ? coinWallet.map((e, i) => 
+           <div key={i} >
+            <TextField
+                id="outlined-number"
+                label= {e.name}
+                value={e.amount}
+                placeholder="0"
+                onChange={(k)=>handleAmountChange(k,i)}
+                type="number"
+                InputLabelProps={{
+                    shrink: true,
+                }}
+            />
+            </div>
+          ): null}
+          
          <div className="chartDiv">{fetching ? <CircularProgress color="secondary" /> :<Charts charts={charts} data={data}/>}</div>
      </div>
     );
