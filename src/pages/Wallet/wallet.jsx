@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 
 import './wallet.scss';
-import { Button } from '@mui/material';
+import { Button,CircularProgress } from '@mui/material';
 import axios from 'axios';
 import Charts from '../../components/Charts/charts';
 
@@ -60,6 +60,38 @@ const Wallet = (props) => {
         }
       }, [props.userData]);
 
+      useEffect(()=>{
+        if(Object.keys(temp).length !== 0){
+          pushWalletInfo()
+        } 
+      },[temp])
+
+      const pushWalletInfo = () => {
+        let count = Object.entries(temp['Item']['wallet']).length
+        let labels=[]
+        let index = 1
+        let datasets =  [{
+          label: ' USD Equivalent',
+          data: [], 
+          backgroundColor: backgroundColors.slice(0,count),
+          borderColor: borderColors.slice(0,count),
+          borderWidth: 1
+        }]
+  
+        let dataArray = []
+        for (const [currName,currAmount] of Object.entries(temp['Item']['wallet'])) {
+          let upperedCurrName =  currName.charAt(0).toUpperCase() + currName.slice(1)
+          labels.push(upperedCurrName)
+          dataArray.push(currAmount * props.currencyData[upperedCurrName]['price'])
+        }
+        datasets[0]['data'] = dataArray
+        
+        setData({
+          labels: labels,
+          datasets: datasets,
+        })
+      }
+
       const backgroundColors =  [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',
@@ -90,31 +122,7 @@ const Wallet = (props) => {
           })
     };
 
-    const pushWalletInfo = () => {
-      let count = Object.entries(temp['Item']['wallet']).length
-      let labels=[]
-      let index = 1
-      let datasets =  [{
-        label: ' USD Equivalent',
-        data: [], 
-        backgroundColor: backgroundColors.slice(0,count),
-        borderColor: borderColors.slice(0,count),
-        borderWidth: 1
-      }]
-
-      let dataArray = []
-      for (const [currName,currAmount] of Object.entries(temp['Item']['wallet'])) {
-        let upperedCurrName =  currName.charAt(0).toUpperCase() + currName.slice(1)
-        labels.push(upperedCurrName)
-        dataArray.push(currAmount * props.currencyData[upperedCurrName]['price'])
-      }
-      datasets[0]['data'] = dataArray
-      
-      setData({
-        labels: labels,
-        datasets: datasets,
-      })
-    }
+    
 
     const saveWallet = () => {
       const tempWallet = { 
@@ -148,7 +156,7 @@ const Wallet = (props) => {
          <div><button onClick={()=>console.log(props.currencyData)}> print currency data</button></div>
          <div><button onClick={()=> pushWalletInfo()}> PUSH</button></div>
         
-         <Charts charts={charts} data={data}/>
+         <div className="chartDiv">{fetching ? <CircularProgress color="secondary" /> :<Charts charts={charts} data={data}/>}</div>
      </div>
     );
 }
