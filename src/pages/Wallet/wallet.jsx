@@ -13,6 +13,7 @@ const Wallet = (props) => {
     const [charts,setCharts] = useState(['doughnut','pie'])
     const [fetching,setFetching] = useState(true)
     const [coinWallet,setCoinWallet] = useState([{'name':'Solana','amount':15}])
+    const [tempCoinWallet,setTempCoinWallet] = useState([{'name':'Solana','amount':15}])
     const [coinOptions,setCoinOptions] = useState(
       [
         { value: 'USD', label: 'USD'},
@@ -82,14 +83,13 @@ const Wallet = (props) => {
 
       useEffect(()=>{
         if(Object.keys(temp).length !== 0){
-          pushWalletInfo()
+          pushWalletInfoToChart()
         } 
       },[temp])
 
-      const pushWalletInfo = () => {
+      const pushWalletInfoToChart = () => {
         let count = Object.entries(temp['Item']['wallet']).length
         let labels=[]
-        // let index = 1
         let datasets =  [{
           label: ' USD Equivalent',
           data: [], 
@@ -144,17 +144,41 @@ const Wallet = (props) => {
 
     
 
-    const saveWallet = () => {
-      const tempWallet = { 
-        "id":"five",
-        "wallet": {
-          "Bitcoin" : 2,
-          "Ethereum": 120,
-          "Litecoin": 300,
-          "Solana": 500
-        }     
-      };
-      axios.put("https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items",tempWallet)
+  
+
+    const handleOptionChange = (e) => {
+      let arr =[...coinOptions]
+      arr.splice(arr.findIndex(v => v.value === e.value), 1);
+      setCoinOptions(arr)
+      let tempArr = [...tempCoinWallet]
+      console.log("before option add , tempArr = ",tempArr)
+      tempArr.push({'name':e.value,'amount':0})
+      setTempCoinWallet(tempArr)
+      console.log("option added , tempArr = ",tempArr)
+    }
+
+    const handleAmountChange = (e,i) =>  {
+      let arr = [...tempCoinWallet]
+      arr[i]['amount'] = e.target.value
+      setTempCoinWallet(arr)
+    }
+
+    const applyChanges = () => {
+      setCoinWallet(tempCoinWallet)
+    }
+
+    const saveChanges = () => {
+      // const tempWallet = { 
+      //   "id":"five",
+      //   "wallet": {
+      //     "Bitcoin" : 2,
+      //     "Ethereum": 120,
+      //     "Litecoin": 300,
+      //     "Solana": 500
+      //   }     
+      // };
+      applyChanges()
+      axios.put("https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items",tempCoinWallet)
         .then(response => {
             return response.data
           })
@@ -164,30 +188,21 @@ const Wallet = (props) => {
           .catch(error => {
             console.log(error)
           })
-    };
-
-    const handleOptionChange = (e) => {
-      let arr =[...coinOptions]
-      arr.splice(arr.findIndex(v => v.value === e.value), 1);
-      setCoinOptions(arr)
-      setCoinWallet([...coinWallet].push({'name':e.value,'amount':0}))
-    }
-
-    const handleAmountChange = (e,i) =>  {
-      let arr = [...coinWallet]
-      arr[i]['amount'] = e.target.value
-      setCoinWallet(arr)
     }
 
     return (
      <div className="wallet">
          <div> WELCOME TO THE Wallet PAGE</div>
          <div><button onClick={()=>fetchWallet()}> fetch wallets</button></div>
-         <div><button onClick={()=>saveWallet()}> save wallets</button></div>
-         <div><button onClick={()=>console.log(temp)}> print temp data</button></div>
-         <div><button onClick={()=>console.log(props.userData)}> print user data</button></div>
-         <div><button onClick={()=>console.log(props.currencyData)}> print currency data</button></div>
-         <div><button onClick={()=> pushWalletInfo()}> PUSH</button></div>
+         {/* <div><button onClick={()=>console.log(temp)}> print temp data</button></div> */}
+         <div><button onClick={()=>console.log(coinWallet)}> print coinWallet data</button></div>
+         <div><button onClick={()=>console.log(tempCoinWallet)}> print tempCoinWallet data</button></div>
+         <div><button onClick={()=> pushWalletInfoToChart()}> PUSH</button></div>
+         <div>
+            <button onClick={()=> applyChanges()}> APPLY</button>
+            <button onClick={()=> saveChanges()}> SAVE</button>
+            {/* <button onClick={()=> pushWalletInfoToChart()}> RESET</button> */}
+         </div>
          {/* <div><button onClick={()=> setCoinCount(coinCount+1)}> Add CoinType</button></div> */}
          
           
@@ -202,8 +217,9 @@ const Wallet = (props) => {
                 classNamePrefix="select" />
           </div>
 
-          { coinWallet ? coinWallet.map((e, i) => 
-           <div key={i} >
+        <div className="walletInputParent">
+          { tempCoinWallet ? tempCoinWallet.map((e, i) => 
+           <div key={i} className="walletInput" >
             <TextField
                 id="outlined-number"
                 label= {e.name}
@@ -216,7 +232,9 @@ const Wallet = (props) => {
                 }}
             />
             </div>
+          
           ): null}
+          </div>
           
          <div className="chartDiv">{fetching ? <CircularProgress color="secondary" /> :<Charts charts={charts} data={data}/>}</div>
      </div>

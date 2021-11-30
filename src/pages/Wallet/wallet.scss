@@ -6,3 +6,10 @@
 .coinOption {
   width: 30%;
 }
+
+.walletInputParent {
+  .walletInput {
+    display: inline-block;
+    margin: 20px;
+  }
+}
