@@ -12,8 +12,7 @@ const Wallet = (props) => {
 
     const [charts,setCharts] = useState(['doughnut','pie'])
     const [fetching,setFetching] = useState(true)
-    const [coinWallet,setCoinWallet] = useState([{'name':'Solana','amount':15}])
-    const [tempCoinWallet,setTempCoinWallet] = useState([{'name':'Solana','amount':15}])
+    const [tempCoinWallet,setTempCoinWallet] = useState({'Solana':15})
     const [coinOptions,setCoinOptions] = useState(
       [
         { value: 'USD', label: 'USD'},
@@ -60,7 +59,7 @@ const Wallet = (props) => {
       })
 
 
-
+      // Fetch wallet data when the user signs in
       useEffect(() => {
         setFetching(true)
         if(props.userData){
@@ -81,8 +80,10 @@ const Wallet = (props) => {
         }
       }, [props.userData]);
 
+      //  Push fetched data to chart
       useEffect(()=>{
         if(Object.keys(temp).length !== 0){
+          setTempCoinWallet(temp['Item']['wallet'])
           pushWalletInfoToChart()
         } 
       },[temp])
@@ -117,7 +118,9 @@ const Wallet = (props) => {
         'rgba(54, 162, 235, 0.2)',
         'rgba(255, 206, 86, 0.2)',
         'rgba(75, 192, 192, 0.2)',
+        'rgba(169, 169, 169, 0.2)',
         'rgba(153, 102, 255, 0.2)',
+        'rgba(34, 139, 34, 0.2)',
         'rgba(255, 159, 64, 0.2)',
       ]
       const borderColors =  [
@@ -125,12 +128,15 @@ const Wallet = (props) => {
         'rgba(54, 162, 235, 1)',
         'rgba(255, 206, 86, 1)',
         'rgba(75, 192, 192, 1)',
+        'rgba(169, 169, 169, 1)',
         'rgba(153, 102, 255, 1)',
+        'rgba(34, 139, 34, 1)',
         'rgba(255, 159, 64, 1)',
       ]
 
     const fetchWallet = () => {
-      axios.get("https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items")
+      let sub = props.userData['attributes']['sub']
+      axios.get(`https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items/${sub}`)
         .then(response => {
             return response.data
           })
@@ -150,35 +156,75 @@ const Wallet = (props) => {
       let arr =[...coinOptions]
       arr.splice(arr.findIndex(v => v.value === e.value), 1);
       setCoinOptions(arr)
-      let tempArr = [...tempCoinWallet]
-      console.log("before option add , tempArr = ",tempArr)
-      tempArr.push({'name':e.value,'amount':0})
-      setTempCoinWallet(tempArr)
-      console.log("option added , tempArr = ",tempArr)
+      let tempDict = {...tempCoinWallet}
+      console.log("before option add , tempDict = ",tempDict)
+      tempDict[e.value]=0
+      setTempCoinWallet(tempDict)
+      console.log("option added , tempDict = ",tempDict)
     }
 
-    const handleAmountChange = (e,i) =>  {
-      let arr = [...tempCoinWallet]
-      arr[i]['amount'] = e.target.value
-      setTempCoinWallet(arr)
+    const handleAmountChange = (e,key) =>  {
+      let tempDict = {...tempCoinWallet}
+      if(e.target.value === ''){e.target.value = 0}
+      tempDict[key] = parseInt(e.target.value)
+      setTempCoinWallet(tempDict)
     }
 
     const applyChanges = () => {
-      setCoinWallet(tempCoinWallet)
+      
+      let count = Object.entries(tempCoinWallet).length
+      let labels=[]
+      let datasets =  [{
+        label: ' USD Equivalent',
+        data: [], 
+        backgroundColor: backgroundColors.slice(0,count),
+        borderColor: borderColors.slice(0,count),
+        borderWidth: 1
+      }]
+
+      let dataArray = []
+      for (const [currName,currAmount] of Object.entries(tempCoinWallet)) {
+        let upperedCurrName =  currName.charAt(0).toUpperCase() + currName.slice(1)
+        labels.push(upperedCurrName)
+        dataArray.push(currAmount * props.currencyData[upperedCurrName]['price'])
+      }
+      datasets[0]['data'] = dataArray
+      
+      setData({
+        labels: labels,
+        datasets: datasets,
+      })
+    }
+
+    const fetchAll = () => {
+      axios.get('https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items')
+          .then(response => {
+              return response.data
+            })
+            .then(data => {
+              console.log(data)
+            }).then(()=>{
+              setFetching(false)
+            })
+            .catch(error => {
+              console.log(error)
+          })
+
     }
 
     const saveChanges = () => {
-      // const tempWallet = { 
-      //   "id":"five",
-      //   "wallet": {
-      //     "Bitcoin" : 2,
-      //     "Ethereum": 120,
-      //     "Litecoin": 300,
-      //     "Solana": 500
-      //   }     
-      // };
       applyChanges()
-      axios.put("https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items",tempCoinWallet)
+      let sub = props.userData['attributes']['sub']
+      let payload = {}
+      payload['id'] = sub
+      let tempData = {}
+      for (const [key, value] of Object.entries(tempCoinWallet)) {
+        tempData[key] = value
+      }
+     
+      payload['wallet'] = tempData
+     console.log("this is payload before send",payload)
+      axios.put("https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items",payload)
         .then(response => {
             return response.data
           })
@@ -193,9 +239,9 @@ const Wallet = (props) => {
     return (
      <div className="wallet">
          <div> WELCOME TO THE Wallet PAGE</div>
-         <div><button onClick={()=>fetchWallet()}> fetch wallets</button></div>
-         {/* <div><button onClick={()=>console.log(temp)}> print temp data</button></div> */}
-         <div><button onClick={()=>console.log(coinWallet)}> print coinWallet data</button></div>
+         <div><button onClick={()=>fetchAll()}> Fetch all wallets</button></div>
+         <div><button onClick={()=>fetchWallet()}> Fetch my wallet</button></div>
+         <div><button onClick={()=>console.log(temp)}> print temp data</button></div>
          <div><button onClick={()=>console.log(tempCoinWallet)}> print tempCoinWallet data</button></div>
          <div><button onClick={()=> pushWalletInfoToChart()}> PUSH</button></div>
          <div>
@@ -218,14 +264,14 @@ const Wallet = (props) => {
           </div>
 
         <div className="walletInputParent">
-          { tempCoinWallet ? tempCoinWallet.map((e, i) => 
-           <div key={i} className="walletInput" >
+          { tempCoinWallet ? Object.entries(tempCoinWallet).map( ([key, value]) => 
+           <div key={key} className="walletInput" >
             <TextField
                 id="outlined-number"
-                label= {e.name}
-                value={e.amount}
+                label= {key}
+                value={value}
                 placeholder="0"
-                onChange={(k)=>handleAmountChange(k,i)}
+                onChange={(e)=>handleAmountChange(e,key)}
                 type="number"
                 InputLabelProps={{
                     shrink: true,
