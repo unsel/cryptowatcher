@@ -3,8 +3,13 @@
   margin: 30px;
 }
 
-.coinOption {
-  width: 30%;
+.optionWrapper {
+  display: block;
+  text-align: center;
+  .coinOption {
+    max-width: 30%;
+    text-align: center;
+  }
 }
 
 .walletInputParent {

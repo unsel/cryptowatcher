@@ -6,7 +6,7 @@ import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import Select from 'react-select'
 import Charts from '../../components/Charts/charts';
-
+import walletImage from '../../images/wallet.svg';
 
 const Wallet = (props) => {
 
@@ -261,14 +261,12 @@ const Wallet = (props) => {
     return (
      <div className="wallet">
          <div> WELCOME TO THE Wallet PAGE</div>
+         <img src={walletImage}/>
       
          <div>
         { openPieChart? <button onClick={()=>setOpenPieChart(false)}>CLOSE PIE</button> : <button onClick={()=>setOpenPieChart(true)}>OPEN PIE </button>}
         { openDoughnut? <button onClick={()=>setOpenDoughnut(false)}>CLOSE DOUGHNUT</button> : <button onClick={()=>setOpenDoughnut(true)}>OPEN DOUGHNUT </button>} 
           </div>
-         <div><button onClick={()=>console.log(coinOptions)}> print coinOPtions</button></div>
-         <div><button onClick={()=>console.log(tempCoinWallet)}> print tempCoinWallet data</button></div>
-         
          <div>
             <button onClick={()=> applyChanges()}> APPLY</button>
             <button onClick={()=> saveChanges()}> SAVE</button>
@@ -276,18 +274,18 @@ const Wallet = (props) => {
          </div>
          {/* <div><button onClick={()=> setCoinCount(coinCount+1)}> Add CoinType</button></div> */}
          
-          
-          <div className="coinOption">
-            <Select 
-                options={coinOptions}
-                // defaultValue={currencyOptions[0]}
-                label
-                onChange={e => handleOptionChange(e.value)}
-                name="Action"
-                className="basic-multi-select"
-                classNamePrefix="select" />
+          <div className="optionWrapper">
+            <div className="coinOption">
+              <Select 
+                  options={coinOptions}
+                  // defaultValue={currencyOptions[0]}
+                  label
+                  onChange={e => handleOptionChange(e.value)}
+                  name="Action"
+                  className="basic-multi-select"
+                  classNamePrefix="select" />
+            </div>
           </div>
-
         <div className="walletInputParent">
           { tempCoinWallet ? Object.entries(tempCoinWallet).map( ([key, value]) => 
            <div key={key} className="walletInput" >
