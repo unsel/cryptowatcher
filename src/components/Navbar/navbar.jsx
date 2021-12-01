@@ -24,7 +24,7 @@ const NavBar = (props) => {
     return (
      <div className="navbar">
          {/* <div><img src={logo} className='logo'/></div> */}
-         <button onClick={()=>handleFetch()}>CLICK TO FETCH</button>
+         {/* <button onClick={()=>handleFetch()}>CLICK TO FETCH</button> */}
          <Link to='/'><div className="cryptoWatcher"> CRYPTOWATCHER</div></Link>
          <Link to='/converter'><div><Button variant="contained">Price Converter</Button></div></Link>
          <Link to='/wallet'><div><Button variant="contained">Show My Wallet</Button> </div></Link>
