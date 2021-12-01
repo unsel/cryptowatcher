@@ -10,7 +10,8 @@ import Charts from '../../components/Charts/charts';
 
 const Wallet = (props) => {
 
-    const [charts,setCharts] = useState(['doughnut','pie'])
+    const [openPieChart,setOpenPieChart] = useState(true)
+    const [openDoughnut,setOpenDoughnut] = useState(false)
     const [fetching,setFetching] = useState(true)
     const [tempCoinWallet,setTempCoinWallet] = useState({})
     const [coinOptions,setCoinOptions] = useState(
@@ -261,6 +262,10 @@ const Wallet = (props) => {
      <div className="wallet">
          <div> WELCOME TO THE Wallet PAGE</div>
       
+         <div>
+        { openPieChart? <button onClick={()=>setOpenPieChart(false)}>CLOSE PIE</button> : <button onClick={()=>setOpenPieChart(true)}>OPEN PIE </button>}
+        { openDoughnut? <button onClick={()=>setOpenDoughnut(false)}>CLOSE DOUGHNUT</button> : <button onClick={()=>setOpenDoughnut(true)}>OPEN DOUGHNUT </button>} 
+          </div>
          <div><button onClick={()=>console.log(coinOptions)}> print coinOPtions</button></div>
          <div><button onClick={()=>console.log(tempCoinWallet)}> print tempCoinWallet data</button></div>
          
@@ -303,7 +308,7 @@ const Wallet = (props) => {
           ): null}
           </div>
           
-         <div className="chartDiv">{fetching ? <CircularProgress color="secondary" /> :<Charts charts={charts} data={data}/>}</div>
+         <div className="chartDiv">{fetching ? <CircularProgress color="secondary" /> :<Charts pie={openPieChart} doughnut={openDoughnut} data={data}/>}</div>
      </div>
     );
 }
