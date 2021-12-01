@@ -1,9 +1,6 @@
 import React from 'react';
 
 import './exchange.scss';
-import { Button } from '@mui/material';
-import { AmplifySignOut } from '@aws-amplify/ui-react';
-import logo from'../../images/logoo.png';
 
 const Exchange = (props) => {
     return (

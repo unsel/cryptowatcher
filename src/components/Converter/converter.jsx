@@ -3,7 +3,6 @@ import React,{useState,useEffect} from 'react';
 import './converter.scss';
 import TextField from '@mui/material/TextField';
 import Select from 'react-select'
-import { Button } from '@mui/material';
 import ThreeSixtyIcon from '@mui/icons-material/ThreeSixty';
 
 const Converter = (props) => {

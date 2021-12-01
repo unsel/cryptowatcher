@@ -1,5 +1,5 @@
 
-import React,{ useState , useEffect } from "react";
+import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie,Doughnut } from 'react-chartjs-2';
 import './pieChart.scss';

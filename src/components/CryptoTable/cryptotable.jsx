@@ -35,7 +35,8 @@ const DataTable = (props) => {
               if(['id','logo','name','graph'].includes(key)){
                 temp[key] = value
               } else {
-                temp[key] =value.toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                temp[key] = value
+                // temp[key] =value.toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
               }
 
               if (['price','market_cap','volume_24h'].includes(key)){

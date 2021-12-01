@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import Select from 'react-select'
 import Charts from '../../components/Charts/charts';
 import walletImage from '../../images/wallet.svg';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Wallet = (props) => {
 
@@ -151,19 +152,19 @@ const Wallet = (props) => {
         'rgba(255, 159, 64, 1)',
       ]
 
-    const fetchWallet = () => {
-      let sub = props.userData['attributes']['sub']
-      axios.get(`https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items/${sub}`)
-        .then(response => {
-            return response.data
-          })
-          .then(data => {
-            console.log(data)
-          })
-          .catch(error => {
-            console.log(error)
-          })
-    };
+    // const fetchWallet = () => {
+    //   let sub = props.userData['attributes']['sub']
+    //   axios.get(`https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items/${sub}`)
+    //     .then(response => {
+    //         return response.data
+    //       })
+    //       .then(data => {
+    //         console.log(data)
+    //       })
+    //       .catch(error => {
+    //         console.log(error)
+    //       })
+    // };
 
     
 
@@ -220,21 +221,20 @@ const Wallet = (props) => {
       })
     }
 
-    const fetchAll = () => {
-      axios.get('https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items')
-          .then(response => {
-              return response.data
-            })
-            .then(data => {
-              console.log(data)
-            }).then(()=>{
-              setFetching(false)
-            })
-            .catch(error => {
-              console.log(error)
-          })
-
-    }
+    // const fetchAll = () => {
+    //   axios.get('https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items')
+    //       .then(response => {
+    //           return response.data
+    //         })
+    //         .then(data => {
+    //           console.log(data)
+    //         }).then(()=>{
+    //           setFetching(false)
+    //         })
+    //         .catch(error => {
+    //           console.log(error)
+    //       })
+    // }
     
     const saveChanges = () => {
       applyChanges()
@@ -263,23 +263,9 @@ const Wallet = (props) => {
     return (
      <div className="wallet">
          <div> WELCOME TO THE Wallet PAGE</div>
-         <img src={walletImage}/>
-      
          <div>
-        { openPieChart? <button onClick={()=>setOpenPieChart(false)}>CLOSE PIE</button> : <button onClick={()=>setOpenPieChart(true)}>OPEN PIE </button>}
-        { openDoughnut? <button onClick={()=>setOpenDoughnut(false)}>CLOSE DOUGHNUT</button> : <button onClick={()=>setOpenDoughnut(true)}>OPEN DOUGHNUT </button>} 
-          </div>
-         <div>
-            <button onClick={()=> applyChanges()}> APPLY</button>
-            <button onClick={()=> saveChanges()}> SAVE</button>
-            {/* <button onClick={()=> pushWalletInfoToChart()}> RESET</button> */}
-         </div>
-
-         <button onClick={()=> console.log(props.userData)}> print user</button>
-        
-         {/* <div><button onClick={()=> setCoinCount(coinCount+1)}> Add CoinType</button></div> */}
-         
-          <div className="optionWrapper">
+          <img alt="walletImage" src={walletImage}/>
+          <div className="someWrapper">
             <div className="coinOption">
               <Select 
                   options={coinOptions}
@@ -290,7 +276,25 @@ const Wallet = (props) => {
                   className="basic-multi-select"
                   classNamePrefix="select" />
             </div>
+            <div>
+              { openPieChart? <Button variant="contained" onClick={()=>setOpenPieChart(false)}>CLOSE PIE</Button> : <Button variant="contained" onClick={()=>setOpenPieChart(true)}>OPEN PIE </Button>}
+              { openDoughnut? <Button variant="contained" onClick={()=>setOpenDoughnut(false)}>CLOSE DOUGHNUT</Button> : <Button variant="contained" onClick={()=>setOpenDoughnut(true)}>OPEN DOUGHNUT </Button>} 
+            </div>
           </div>
+         </div>
+      
+        
+         
+         <div>
+            <Button variant="contained" onClick={()=> applyChanges()}> APPLY</Button>
+            <Button variant="contained" onClick={()=> saveChanges()}> SAVE</Button>
+            {/* <button onClick={()=> pushWalletInfoToChart()}> RESET</button> */}
+         </div>
+
+        
+         {/* <div><button onClick={()=> setCoinCount(coinCount+1)}> Add CoinType</button></div> */}
+         
+        
         <div className="walletInputParent">
           { tempCoinWallet ? Object.entries(tempCoinWallet).map( ([key, value]) => 
            <div key={key} className="walletInput" >
@@ -305,7 +309,7 @@ const Wallet = (props) => {
                     shrink: true,
                 }}
             />
-            <button onClick={()=>removeOption(key)}>Remove</button>
+            <span className="deleteIcon"><DeleteIcon  onClick={()=>removeOption(key)}/></span>
             </div>
           
           ): null}

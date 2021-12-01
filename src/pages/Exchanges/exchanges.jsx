@@ -1,8 +1,6 @@
 import React from 'react';
 
 import './exchanges.scss';
-import { Button } from '@mui/material';
-import {Link} from 'react-router-dom';
 
 const Exchanges = (props) => {
     return (
