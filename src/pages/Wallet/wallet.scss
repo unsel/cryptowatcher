@@ -1,0 +1,42 @@
+.chartDiv {
+  margin-top: 50px;
+  margin: 30px;
+}
+
+.coinOption {
+  display: inline-block;
+  // width: 30%;
+  text-align: center;
+  width: 400px;
+}
+.someWrapper {
+  display: inline-block;
+  text-align: center;
+  margin-left: 30px;
+}
+
+.walletInputParent {
+  .walletInput {
+    display: inline-block;
+    margin: 20px;
+  }
+}
+
+.buttonOptions {
+  display: inline-block;
+  margin-left: 20px;
+
+  .chartButtons,
+  .applyButtons {
+    display: inline-block;
+    margin: 10px;
+  }
+}
+
+.walletValue {
+  font-size: 25px;
+  display: inline-block;
+  padding: 20px;
+  border: 3px solid lightgray;
+  border-radius: 4px;
+}

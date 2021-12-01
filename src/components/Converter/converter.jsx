@@ -3,7 +3,6 @@ import React,{useState,useEffect} from 'react';
 import './converter.scss';
 import TextField from '@mui/material/TextField';
 import Select from 'react-select'
-import { Button } from '@mui/material';
 import ThreeSixtyIcon from '@mui/icons-material/ThreeSixty';
 
 const Converter = (props) => {
@@ -40,21 +39,22 @@ const Converter = (props) => {
         } else {
             setRightOption(e.value)
         }
+        setRightAmount(leftAmount*(values[e.value]/values[rightOption]).toFixed(5))
     }
     const handleAmountChange = (e,type) => {
         if(type === "left"){
             setLeftAmount(e.target.value)
-            setRightAmount(e.target.value*(values[leftOption]/values[rightOption]))
+            setRightAmount(e.target.value*(values[leftOption]/values[rightOption]).toFixed(5))
             
         } else {
             setRightAmount(e.target.value)
-            setLeftAmount(e.target.value*(values[rightOption]/values[leftOption]))
+            setLeftAmount(e.target.value*(values[rightOption]/values[leftOption]).toFixed(5))
         }
     }
 
     return (
      <div className="converter">
-        <div class="leftConverter">
+        <div className="leftConverter">
             <div className="currencyChoice">
                 <Select 
                     options={currencyOptions}
@@ -78,7 +78,7 @@ const Converter = (props) => {
             />
         </div>
         <ThreeSixtyIcon fontSize="large" className="threesixtyIcon"/>
-        <div class="rightConverter">
+        <div className="rightConverter">
             <div className="currencyChoice">
                 <Select 
                     options={currencyOptions}
