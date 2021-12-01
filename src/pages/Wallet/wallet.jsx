@@ -78,6 +78,8 @@ const Wallet = (props) => {
             .catch(error => {
               console.log(error)
           })
+        } else if(props.userData === undefined){
+          setFetching(false)
         }
       }, [props.userData]);
 
@@ -188,7 +190,7 @@ const Wallet = (props) => {
     const handleAmountChange = (e,key) =>  {
       let tempDict = {...tempCoinWallet}
       if(e.target.value === ''){e.target.value = 0}
-      tempDict[key] = parseInt(e.target.value)
+      tempDict[key] = e.target.value
       setTempCoinWallet(tempDict)
     }
 
@@ -272,6 +274,9 @@ const Wallet = (props) => {
             <button onClick={()=> saveChanges()}> SAVE</button>
             {/* <button onClick={()=> pushWalletInfoToChart()}> RESET</button> */}
          </div>
+
+         <button onClick={()=> console.log(props.userData)}> print user</button>
+        
          {/* <div><button onClick={()=> setCoinCount(coinCount+1)}> Add CoinType</button></div> */}
          
           <div className="optionWrapper">
