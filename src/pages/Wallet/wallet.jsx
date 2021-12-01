@@ -6,7 +6,7 @@ import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import Select from 'react-select'
 import Charts from '../../components/Charts/charts';
-import walletImage from '../../images/wallet.svg';
+// import walletImage from '../../images/wallet.svg';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const Wallet = (props) => {

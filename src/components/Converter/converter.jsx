@@ -36,19 +36,21 @@ const Converter = (props) => {
     const handleOptionChange = (e,type) => {
         if(type === "left"){
             setLeftOption(e.value)
+            setRightAmount(leftAmount*(values[e.value]/values[rightOption]).toFixed(7))
         } else {
             setRightOption(e.value)
+            setRightAmount(leftAmount*(values[leftOption]/values[e.value]).toFixed(7))
         }
-        setRightAmount(leftAmount*(values[e.value]/values[rightOption]).toFixed(5))
+        
     }
     const handleAmountChange = (e,type) => {
         if(type === "left"){
             setLeftAmount(e.target.value)
-            setRightAmount(e.target.value*(values[leftOption]/values[rightOption]).toFixed(5))
+            setRightAmount(e.target.value*(values[leftOption]/values[rightOption]).toFixed(7))
             
         } else {
             setRightAmount(e.target.value)
-            setLeftAmount(e.target.value*(values[rightOption]/values[leftOption]).toFixed(5))
+            setLeftAmount(e.target.value*(values[rightOption]/values[leftOption]).toFixed(7))
         }
     }
 
