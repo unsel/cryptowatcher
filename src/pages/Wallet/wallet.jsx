@@ -14,10 +14,11 @@ const Wallet = (props) => {
     const [openPieChart,setOpenPieChart] = useState(true)
     const [openDoughnut,setOpenDoughnut] = useState(false)
     const [fetching,setFetching] = useState(true)
+    const [walletValue,setWalletValue] = useState(0)
     const [tempCoinWallet,setTempCoinWallet] = useState({})
     const [coinOptions,setCoinOptions] = useState(
       [
-        { value: 'USD', label: 'USD'},
+        // { value: 'USD', label: 'USD'},
         { value: 'Bitcoin', label: 'Bitcoin' },
         { value: 'Ethereum', label: 'Ethereum' },
         { value: 'Litecoin', label: 'Litecoin'},
@@ -64,7 +65,7 @@ const Wallet = (props) => {
       // Fetch wallet data when the user signs in
       useEffect(() => {
         setFetching(true)
-        if(props.userData){
+        if(props.userData && props.currencyData){
           let sub = props.userData['attributes']['sub']
           axios.get(`https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items/${sub}`)
           .then(response => {
@@ -82,24 +83,15 @@ const Wallet = (props) => {
         } else if(props.userData === undefined){
           setFetching(false)
         }
-      }, [props.userData]);
+      }, [props.userData,props.currencyData]);
 
       //  Push fetched data to chart
       useEffect(()=>{
-        if(Object.keys(temp).length !== 0){
+        if(Object.keys(temp).length !== 0 && props.currencyData){
           setTempCoinWallet(temp['Item']['wallet'])
           pushWalletInfoToChart()
-
-        // let tempArr = [...coinOptions]
-        // for (const [currName,currAmount] of Object.entries(temp['Item']['wallet'])) {
-        //   let upperedCurrName =  currName.charAt(0).toUpperCase() + currName.slice(1)
-        //   tempArr.splice(tempArr.findIndex(v => v.value === upperedCurrName), 1);
-        //   console.log("temparr=",tempArr)
-        // }
-        // setCoinOptions(tempArr)
-
         } 
-      },[temp])
+      },[temp,props.currencyData])
 
       const pushWalletInfoToChart = () => {
         let count = Object.entries(temp['Item']['wallet']).length
@@ -114,11 +106,15 @@ const Wallet = (props) => {
   
         let dataArray = []
         let tempArr = [...coinOptions]
+        let tempWalletValue = 0
         for (const [currName,currAmount] of Object.entries(temp['Item']['wallet'])) {
           let upperedCurrName =  currName.charAt(0).toUpperCase() + currName.slice(1)
           tempArr.splice(tempArr.findIndex(v => v.value === upperedCurrName), 1);
           labels.push(upperedCurrName)
-          dataArray.push(currAmount * props.currencyData[upperedCurrName]['price'])
+          console.log(upperedCurrName)
+          let val = currAmount * props.currencyData[upperedCurrName]['price']
+          dataArray.push(val)
+          tempWalletValue = tempWalletValue+val
         }
         datasets[0]['data'] = dataArray
         
@@ -128,6 +124,7 @@ const Wallet = (props) => {
         })
 
         setCoinOptions(tempArr)
+        setWalletValue(tempWalletValue)
 
       }
 
@@ -166,10 +163,6 @@ const Wallet = (props) => {
     //       })
     // };
 
-    
-
-  
-
     const handleOptionChange = (e) => {
       let arr =[...coinOptions]
       arr.splice(arr.findIndex(v => v.value === e), 1);
@@ -190,7 +183,7 @@ const Wallet = (props) => {
 
     const handleAmountChange = (e,key) =>  {
       let tempDict = {...tempCoinWallet}
-      if(e.target.value === ''){e.target.value = 0}
+      // if(e.target.value === ''){e.target.value = 0}
       tempDict[key] = e.target.value
       setTempCoinWallet(tempDict)
     }
@@ -208,10 +201,13 @@ const Wallet = (props) => {
       }]
 
       let dataArray = []
+      let tempWalletValue = 0
       for (const [currName,currAmount] of Object.entries(tempCoinWallet)) {
         let upperedCurrName =  currName.charAt(0).toUpperCase() + currName.slice(1)
         labels.push(upperedCurrName)
-        dataArray.push(currAmount * props.currencyData[upperedCurrName]['price'])
+        let val = currAmount * props.currencyData[upperedCurrName]['price']
+        dataArray.push(val)
+        tempWalletValue = tempWalletValue+val
       }
       datasets[0]['data'] = dataArray
       
@@ -219,6 +215,8 @@ const Wallet = (props) => {
         labels: labels,
         datasets: datasets,
       })
+
+      setWalletValue(tempWalletValue)
     }
 
     // const fetchAll = () => {
@@ -247,7 +245,6 @@ const Wallet = (props) => {
       }
      
       payload['wallet'] = tempData
-     console.log("this is payload before send",payload)
       axios.put("https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items",payload)
         .then(response => {
             return response.data
@@ -262,9 +259,8 @@ const Wallet = (props) => {
 
     return (
      <div className="wallet">
-         <div> WELCOME TO THE Wallet PAGE</div>
          <div>
-          <img alt="walletImage" src={walletImage}/>
+          {/* <img alt="walletImage" src={walletImage}/> */}
           <div className="someWrapper">
             <div className="coinOption">
               <Select 
@@ -276,24 +272,17 @@ const Wallet = (props) => {
                   className="basic-multi-select"
                   classNamePrefix="select" />
             </div>
-            <div>
-              { openPieChart? <Button variant="contained" onClick={()=>setOpenPieChart(false)}>CLOSE PIE</Button> : <Button variant="contained" onClick={()=>setOpenPieChart(true)}>OPEN PIE </Button>}
-              { openDoughnut? <Button variant="contained" onClick={()=>setOpenDoughnut(false)}>CLOSE DOUGHNUT</Button> : <Button variant="contained" onClick={()=>setOpenDoughnut(true)}>OPEN DOUGHNUT </Button>} 
+            <div className="buttonOptions">
+              { openPieChart? <div className="chartButtons"><Button  variant="contained" onClick={()=>setOpenPieChart(false)}>CLOSE PIE</Button> </div>: <div className="chartButtons"><Button variant="contained" onClick={()=>setOpenPieChart(true)}>OPEN PIE </Button></div>}
+              { openDoughnut? <div className="chartButtons"><Button  variant="contained" onClick={()=>setOpenDoughnut(false)}>CLOSE DOUGHNUT</Button> </div>: <div className="chartButtons"><Button variant="contained" onClick={()=>setOpenDoughnut(true)}>OPEN DOUGHNUT </Button></div>} 
+              <div className="applyButtons"><Button  variant="contained" onClick={()=> applyChanges()}> APPLY</Button></div>
+              { props.userData===undefined ? null:<div className="applyButtons"><Button  variant="contained" onClick={()=> saveChanges()}> SAVE</Button></div>}
             </div>
+              
+            
+            
           </div>
          </div>
-      
-        
-         
-         <div>
-            <Button variant="contained" onClick={()=> applyChanges()}> APPLY</Button>
-            <Button variant="contained" onClick={()=> saveChanges()}> SAVE</Button>
-            {/* <button onClick={()=> pushWalletInfoToChart()}> RESET</button> */}
-         </div>
-
-        
-         {/* <div><button onClick={()=> setCoinCount(coinCount+1)}> Add CoinType</button></div> */}
-         
         
         <div className="walletInputParent">
           { tempCoinWallet ? Object.entries(tempCoinWallet).map( ([key, value]) => 
@@ -316,6 +305,7 @@ const Wallet = (props) => {
           </div>
           
          <div className="chartDiv">{fetching ? <CircularProgress color="secondary" /> :<Charts pie={openPieChart} doughnut={openDoughnut} data={data}/>}</div>
+          {walletValue? <div className="walletValue"> ${walletValue.toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>:null}
      </div>
     );
 }

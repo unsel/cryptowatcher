@@ -30,22 +30,22 @@ const App = () => {
           setUser(authData)
       });
   }, []);
-    useEffect(()=>{
-      setCurrencyData(StaticData)
-    },[])
-  // useEffect(() => {
-  //   axios.get("https://99gz9lge5l.execute-api.us-east-2.amazonaws.com/default/getAllCurrencies2")
-  //     .then(response => {
-  //         return response.data
-  //       })
-  //       .then(data => {
-  //         console.log(data)
-  //         setCurrencyData(data)
-  //       })
-  //       .catch(error => {
-  //         console.log(error)
-  //       })
-  // }, []);
+    // useEffect(()=>{
+    //   setCurrencyData(StaticData)
+    // },[])
+  useEffect(() => {
+    axios.get("https://99gz9lge5l.execute-api.us-east-2.amazonaws.com/default/getAllCurrencies2")
+      .then(response => {
+          return response.data
+        })
+        .then(data => {
+          console.log(data)
+          setCurrencyData(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+  }, []);
 
   useEffect(() => {
     if(authState==='signedin' || authState==='signedup'){

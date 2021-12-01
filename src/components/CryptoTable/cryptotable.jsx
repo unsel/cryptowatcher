@@ -7,15 +7,15 @@ const DataTable = (props) => {
     const [rows,setRows] = useState([])
     const [fetching,setFetching] = useState(true)
     const columns = [
-        { field: 'id', headerName: 'ID', width: 60 },
-        { field: 'logo',headerName: 'Logo',width: 70, editable: true, renderCell: (params) => <img alt="currenyLogo" className="currencyLogo" src={params.value} />},
+        { field: 'id', headerName: 'ID', width: 80 },
+        { field: 'logo',headerName: 'Logo',width: 80, editable: true, renderCell: (params) => <img alt="currenyLogo" className="currencyLogo" src={params.value} />},
         { field: 'name', headerName: 'Name', width: 100 },
         { field: 'price', headerName: 'Price ', width: 120 },
         { field: 'percent_change_24h', headerName: 'Daily Change %', width: 130 },
-        { field: 'percent_change_30d', headerName: 'Monthly Change %', width: 150 },
+        { field: 'percent_change_30d', headerName: '30d Change %', width: 160 },
         { field: 'market_cap', headerName: 'Market Cap', width: 200 },
         { field: 'volume_24h', headerName: 'Daily Volume %', width: 160 },
-        { field: 'volume_change_24h', headerName: 'Daily Change($)', width: 130 },
+        { field: 'volume_change_24h', headerName: 'Daily Change %', width: 130 },
         { field: 'graph',headerName: 'Last 7 Days',width: 190,editable: true,renderCell: (params) => <img alt="currenyGraph" src={params.value} />},
     ];
    
