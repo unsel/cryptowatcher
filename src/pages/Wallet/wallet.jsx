@@ -12,7 +12,7 @@ const Wallet = (props) => {
 
     const [charts,setCharts] = useState(['doughnut','pie'])
     const [fetching,setFetching] = useState(true)
-    const [tempCoinWallet,setTempCoinWallet] = useState({'Solana':15})
+    const [tempCoinWallet,setTempCoinWallet] = useState({})
     const [coinOptions,setCoinOptions] = useState(
       [
         { value: 'USD', label: 'USD'},
@@ -85,6 +85,15 @@ const Wallet = (props) => {
         if(Object.keys(temp).length !== 0){
           setTempCoinWallet(temp['Item']['wallet'])
           pushWalletInfoToChart()
+
+        // let tempArr = [...coinOptions]
+        // for (const [currName,currAmount] of Object.entries(temp['Item']['wallet'])) {
+        //   let upperedCurrName =  currName.charAt(0).toUpperCase() + currName.slice(1)
+        //   tempArr.splice(tempArr.findIndex(v => v.value === upperedCurrName), 1);
+        //   console.log("temparr=",tempArr)
+        // }
+        // setCoinOptions(tempArr)
+
         } 
       },[temp])
 
@@ -100,8 +109,10 @@ const Wallet = (props) => {
         }]
   
         let dataArray = []
+        let tempArr = [...coinOptions]
         for (const [currName,currAmount] of Object.entries(temp['Item']['wallet'])) {
           let upperedCurrName =  currName.charAt(0).toUpperCase() + currName.slice(1)
+          tempArr.splice(tempArr.findIndex(v => v.value === upperedCurrName), 1);
           labels.push(upperedCurrName)
           dataArray.push(currAmount * props.currencyData[upperedCurrName]['price'])
         }
@@ -111,6 +122,9 @@ const Wallet = (props) => {
           labels: labels,
           datasets: datasets,
         })
+
+        setCoinOptions(tempArr)
+
       }
 
       const backgroundColors =  [
@@ -154,13 +168,20 @@ const Wallet = (props) => {
 
     const handleOptionChange = (e) => {
       let arr =[...coinOptions]
-      arr.splice(arr.findIndex(v => v.value === e.value), 1);
+      arr.splice(arr.findIndex(v => v.value === e), 1);
       setCoinOptions(arr)
       let tempDict = {...tempCoinWallet}
-      console.log("before option add , tempDict = ",tempDict)
-      tempDict[e.value]=0
+      tempDict[e]=0
       setTempCoinWallet(tempDict)
-      console.log("option added , tempDict = ",tempDict)
+    }
+
+    const removeOption = (key) => {
+      let arr =[...coinOptions]
+      arr.push({'value':key,'label':key})
+      setCoinOptions(arr)
+      let tempDict = {...tempCoinWallet}
+      delete tempDict[key]
+      setTempCoinWallet(tempDict)
     }
 
     const handleAmountChange = (e,key) =>  {
@@ -211,7 +232,7 @@ const Wallet = (props) => {
           })
 
     }
-
+    
     const saveChanges = () => {
       applyChanges()
       let sub = props.userData['attributes']['sub']
@@ -239,11 +260,10 @@ const Wallet = (props) => {
     return (
      <div className="wallet">
          <div> WELCOME TO THE Wallet PAGE</div>
-         <div><button onClick={()=>fetchAll()}> Fetch all wallets</button></div>
-         <div><button onClick={()=>fetchWallet()}> Fetch my wallet</button></div>
-         <div><button onClick={()=>console.log(temp)}> print temp data</button></div>
+      
+         <div><button onClick={()=>console.log(coinOptions)}> print coinOPtions</button></div>
          <div><button onClick={()=>console.log(tempCoinWallet)}> print tempCoinWallet data</button></div>
-         <div><button onClick={()=> pushWalletInfoToChart()}> PUSH</button></div>
+         
          <div>
             <button onClick={()=> applyChanges()}> APPLY</button>
             <button onClick={()=> saveChanges()}> SAVE</button>
@@ -257,7 +277,7 @@ const Wallet = (props) => {
                 options={coinOptions}
                 // defaultValue={currencyOptions[0]}
                 label
-                onChange={e => handleOptionChange(e)}
+                onChange={e => handleOptionChange(e.value)}
                 name="Action"
                 className="basic-multi-select"
                 classNamePrefix="select" />
@@ -277,6 +297,7 @@ const Wallet = (props) => {
                     shrink: true,
                 }}
             />
+            <button onClick={()=>removeOption(key)}>Remove</button>
             </div>
           
           ): null}
