@@ -29,7 +29,7 @@ const Converter = (props) => {
     return (
      <div className="converter">
          <div className="convertText"> Convert Different Currencies</div>
-         {logos.map((e, i) => <img alt="currenyLogo"  key={i} src={e} className="logoImage"/>)}
+         {logos.map((e, i) => <img alt="currencyLogo"  key={i} src={e} className="logoImage"/>)}
          {[...Array(converterCount)].map((e, i) => <ConverterComponent key={i} values={values}/>)}
 
 

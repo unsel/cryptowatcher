@@ -28,7 +28,7 @@ const NavBar = (props) => {
          <Link to='/'><div className="cryptoWatcher"> CRYPTOWATCHER</div></Link>
          <Link to='/converter'><div><Button variant="contained">Price Converter</Button></div></Link>
          <Link to='/wallet'><div><Button variant="contained">Show My Wallet</Button> </div></Link>
-         <Link to='/exchange'><div><Button variant="contained">Exchange Info</Button> </div></Link> 
+         {/* <Link to='/exchange'><div><Button variant="contained">Exchange Info</Button> </div></Link>  */}
          {props.signedIn ? <div><AmplifySignOut/></div> : <div><Button variant="contained" onClick={()=>props.toggleSign()}>SIGN IN</Button></div>}
      </div>
     );
