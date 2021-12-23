@@ -22,6 +22,7 @@ const App = () => {
   const [user, setUser] = useState();
   const [renderAuthenticator,setRenderAuthenticator] = useState(false);
   const [currencyData,setCurrencyData] = useState({})
+  const [requestTrial,setRequestTrial] = useState(true)
   
 
   useEffect(() => {
@@ -44,8 +45,9 @@ const App = () => {
         })
         .catch(error => {
           console.log(error)
+          setRequestTrial(!requestTrial)
         })
-  }, []);
+  }, [requestTrial]);
 
   useEffect(() => {
     if(authState==='signedin' || authState==='signedup'){

@@ -6,16 +6,34 @@ const DataTable = (props) => {
 
     const [rows,setRows] = useState([])
     const [fetching,setFetching] = useState(true)
+    var regex = /[.,$\s]/g;
+    const customComparator = (inputField) => {
+      const inputComparator = (v1, v2, param1, param2) => {
+        return(
+          param1.api.getCellValue(param1.id, inputField).replace(regex, '') -
+          param2.api.getCellValue(param2.id, inputField).replace(regex, '')
+          )
+      }
+      return inputComparator
+    }
+    
     const columns = [
         { field: 'id', headerName: 'ID', width: 80 },
-        { field: 'logo',headerName: 'Logo',width: 80, editable: true, renderCell: (params) => <img alt="currenyLogo" className="currencyLogo" src={params.value} />},
+        { field: 'logo',headerName: 'Logo',width: 80, editable: true, renderCell: (params) => <img alt="currencyLogo" className="currencyLogo" src={params.value} />},
         { field: 'name', headerName: 'Name', width: 100 },
-        { field: 'price', headerName: 'Price ', width: 120 },
-        { field: 'percent_change_24h', headerName: 'Daily Change %', width: 130 },
-        { field: 'percent_change_30d', headerName: '30d Change %', width: 160 },
-        { field: 'market_cap', headerName: 'Market Cap', width: 200 },
-        { field: 'volume_24h', headerName: 'Daily Volume %', width: 160 },
-        { field: 'volume_change_24h', headerName: 'Daily Change %', width: 130 },
+        { field: 'price', headerName: 'Price ', width: 120 ,
+          sortComparator: customComparator('price')
+        },
+        { field: 'percent_change_24h', headerName: 'Daily Change %', width: 130 ,
+          sortComparator: customComparator('percent_change_24h')},
+        { field: 'percent_change_30d', headerName: '30d Change %', width: 160 ,
+          sortComparator: customComparator('percent_change_30d')},
+        { field: 'market_cap', headerName: 'Market Cap', width: 200 ,
+          sortComparator: customComparator('market_cap')},
+        { field: 'volume_24h', headerName: 'Daily Volume %', width: 160 ,
+          sortComparator: customComparator('volume_24h')},
+        { field: 'volume_change_24h', headerName: 'Daily Change %', width: 130 ,
+          sortComparator: customComparator('volume_change_24h')},
         { field: 'graph',headerName: 'Last 7 Days',width: 190,editable: true,renderCell: (params) => <img alt="currenyGraph" src={params.value} />},
     ];
    
@@ -34,9 +52,10 @@ const DataTable = (props) => {
             if(ourKeys.includes(key)){
               if(['id','logo','name','graph'].includes(key)){
                 temp[key] = value
+              } else if  (['market_cap','volume_24h'].includes(key)){
+                temp[key] =value.toFixed(6).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
               } else {
-                temp[key] = value
-                // temp[key] =value.toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                temp[key] = value.toFixed(5).toString()
               }
 
               if (['price','market_cap','volume_24h'].includes(key)){
