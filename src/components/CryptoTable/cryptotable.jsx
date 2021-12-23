@@ -34,7 +34,7 @@ const DataTable = (props) => {
           sortComparator: customComparator('volume_24h')},
         { field: 'volume_change_24h', headerName: 'Daily Change %', width: 130 ,
           sortComparator: customComparator('volume_change_24h')},
-        { field: 'graph',headerName: 'Last 7 Days',width: 190,editable: true,renderCell: (params) => <img alt="currenyGraph" src={params.value} />},
+        { field: 'graph',headerName: 'Last 7 Days',width: 190,sortable:false,editable: true,renderCell: (params) => <img alt="currenyGraph" src={params.value}/>},
     ];
    
     useEffect(() => {
