@@ -27,16 +27,16 @@ const Converter = (props) => {
     }, [props.currencyData]);
 
     return (
-     <div className="converter">
+     <div className="converterPage">
          <div className="convertText"> Convert Different Currencies</div>
          {logos.map((e, i) => <img alt="currencyLogo"  key={i} src={e} className="logoImage"/>)}
          {[...Array(converterCount)].map((e, i) => <ConverterComponent key={i} values={values}/>)}
 
 
-      <div> 
-          <Button variant="contained" onClick={()=>setConverterCount(converterCount+1)}>Add Converter</Button> &nbsp;&nbsp;&nbsp;&nbsp;
-          <Button variant="contained" onClick={()=>setConverterCount(converterCount-1)}>Remove Converter</Button>
-          </div>
+        <div className='addRemoveConverter'> 
+          <div><Button  variant="contained" onClick={()=>setConverterCount(converterCount+1)}>Add Converter</Button></div> 
+          <div><Button  variant="contained" onClick={()=>setConverterCount(converterCount-1)}>Remove Converter</Button></div>
+        </div>
      </div>
     );
 }

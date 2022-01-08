@@ -12,7 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const Wallet = (props) => {
 
     const [openPieChart,setOpenPieChart] = useState(true)
-    const [openDoughnut,setOpenDoughnut] = useState(false)
+    const [openDoughnut,setOpenDoughnut] = useState(true)
     const [fetching,setFetching] = useState(true)
     const [walletValue,setWalletValue] = useState(0)
     const [tempCoinWallet,setTempCoinWallet] = useState({})
@@ -149,20 +149,6 @@ const Wallet = (props) => {
         'rgba(255, 159, 64, 1)',
       ]
 
-    // const fetchWallet = () => {
-    //   let sub = props.userData['attributes']['sub']
-    //   axios.get(`https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items/${sub}`)
-    //     .then(response => {
-    //         return response.data
-    //       })
-    //       .then(data => {
-    //         console.log(data)
-    //       })
-    //       .catch(error => {
-    //         console.log(error)
-    //       })
-    // };
-
     const handleOptionChange = (e) => {
       let arr =[...coinOptions]
       arr.splice(arr.findIndex(v => v.value === e), 1);
@@ -218,21 +204,6 @@ const Wallet = (props) => {
 
       setWalletValue(tempWalletValue)
     }
-
-    // const fetchAll = () => {
-    //   axios.get('https://2jbjhydie7.execute-api.us-east-2.amazonaws.com/items')
-    //       .then(response => {
-    //           return response.data
-    //         })
-    //         .then(data => {
-    //           console.log(data)
-    //         }).then(()=>{
-    //           setFetching(false)
-    //         })
-    //         .catch(error => {
-    //           console.log(error)
-    //       })
-    // }
     
     const saveChanges = () => {
       applyChanges()

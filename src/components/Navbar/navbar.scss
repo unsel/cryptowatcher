@@ -2,13 +2,9 @@
   margin-top: 30px;
   margin-bottom: 30px;
   background-color: transparent;
-  align-items: center;
+  text-align: center;
   overflow: auto;
-  .cryptoWatcher {
-    font-size: 25px;
-    margin-right: 100px;
-    font-weight: 500;
-  }
+
   .logo {
     width: 200px;
   }
@@ -16,10 +12,32 @@
     display: inline-block;
     margin: 20px;
   }
+  .cryptoWatcher {
+    font-size: 25px;
+    margin-right: 6rem;
+    font-weight: 500;
+  }
 }
 
 .deneme {
   width: 2%;
   border-radius: 10px;
   border: 5px solid black;
+}
+
+@media (max-width: 800px) {
+  .navbar {
+    div {
+      display: block;
+      margin: 30px;
+    }
+    .cryptoWatcher {
+      font-size: 25px;
+      margin: 0;
+      font-weight: 500;
+    }
+    a {
+      text-decoration: none !important;
+    }
+  }
 }

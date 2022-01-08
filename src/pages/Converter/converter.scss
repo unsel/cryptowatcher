@@ -1,11 +1,27 @@
-.converter {
+.converterPage {
   .convertText {
     font-size: 30px;
-    color: blue;
     margin: 30px;
+    font-weight: 500;
   }
   .logoImage {
     margin: 5px;
     max-width: 65px;
+  }
+  .addRemoveConverter {
+    div {
+      display: inline-block;
+      margin: 10px 15px;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .addRemoveConverter {
+    div {
+      display: block;
+      text-align: center;
+      margin: 10px 0;
+    }
   }
 }

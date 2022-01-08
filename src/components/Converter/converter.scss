@@ -1,4 +1,5 @@
 .converter {
+  animation: 0.2s ease-out 0s 1 slideInFromLeft;
   .leftConverter,
   .rightConverter {
     display: inline-block;
@@ -12,5 +13,30 @@
 
   .threesixtyIcon {
     margin-bottom: -15px;
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 800px) {
+  .converter {
+    .leftConverter,
+    .rightConverter {
+      display: inline-block;
+      margin: 10px;
+      margin-bottom: 20px;
+      width: 30%;
+
+      .currencyChoice {
+        margin: 20px 0;
+      }
+    }
   }
 }
