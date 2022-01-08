@@ -1,3 +1,32 @@
 .currencyLogo {
   width: 80%;
 }
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.cryptoTable {
+  animation: 0.7s ease-out 0s 1 slideInFromLeft;
+  margin-bottom: 100px;
+}
+.priceClass {
+  color: #000000;
+  font-size: 14px;
+  font-weight: 500;
+}
+.greenclass {
+  color: #16c784;
+  font-size: 14px;
+  font-weight: 500;
+}
+.redclass {
+  color: #ea3943;
+  font-size: 14px;
+  font-weight: 500;
+}

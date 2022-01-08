@@ -1,12 +1,13 @@
 import React,{useState,useEffect} from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import clsx from 'clsx';
 import './cryptotable.scss';
 
 const DataTable = (props) => {
 
     const [rows,setRows] = useState([])
     const [fetching,setFetching] = useState(true)
-    var regex = /[.,$\s]/g;
+    var regex = /[.,%ꜛꜜ$\s]/g;
     const customComparator = (inputField) => {
       const inputComparator = (v1, v2, param1, param2) => {
         return(
@@ -18,23 +19,30 @@ const DataTable = (props) => {
     }
     
     const columns = [
-        { field: 'id', headerName: 'ID', width: 80 },
-        { field: 'logo',headerName: 'Logo',width: 80, editable: true, renderCell: (params) => <img alt="currencyLogo" className="currencyLogo" src={params.value} />},
+        { field: 'id', headerName: 'ID', width: 90 ,headerAlign: 'center', align: 'center'},
+        { field: 'logo',headerName: 'Logo',width: 80,headerAlign: 'center', align: 'center', editable: true, renderCell: (params) => <img alt="currencyLogo" className="currencyLogo" src={params.value} />},
         { field: 'name', headerName: 'Name', width: 100 },
-        { field: 'price', headerName: 'Price ', width: 120 ,
+        { field: 'price', headerName: 'Price ', width: 110 , headerAlign:'right',align: 'right',
+          cellClassName: (params) => clsx('priceClass'),
           sortComparator: customComparator('price')
         },
-        { field: 'percent_change_24h', headerName: 'Daily Change %', width: 130 ,
+        { field: 'percent_change_24h', headerName: '24h %', width: 110 , headerAlign:'right', align: 'right',
+          cellClassName: (params) =>
+          clsx('greenclass',params.value[1] == '-' && 'redclass',),
           sortComparator: customComparator('percent_change_24h')},
-        { field: 'percent_change_30d', headerName: '30d Change %', width: 160 ,
+        { field: 'percent_change_30d', headerName: '30d %', width: 110 , headerAlign:'right', align: 'right',
+          cellClassName: (params) =>
+          clsx('greenclass',params.value[1] == '-' && 'redclass',),
           sortComparator: customComparator('percent_change_30d')},
-        { field: 'market_cap', headerName: 'Market Cap', width: 200 ,
-          sortComparator: customComparator('market_cap')},
-        { field: 'volume_24h', headerName: 'Daily Volume %', width: 160 ,
+        { field: 'market_cap', headerName: 'Market Cap', width: 180 , headerAlign:'right', align: 'right',
+          sortComparator: customComparator('market_cap')}, 
+        { field: 'volume_24h', headerName: 'Daily Volume', width: 160 , headerAlign:'right', align: 'right',
           sortComparator: customComparator('volume_24h')},
-        { field: 'volume_change_24h', headerName: 'Daily Change %', width: 130 ,
+        { field: 'volume_change_24h', headerName: 'Vol 24h %', width: 110 , headerAlign:'right', align: 'right',
+          cellClassName: (params) =>
+          clsx('greenclass',params.value[1] == '-' && 'redclass',),
           sortComparator: customComparator('volume_change_24h')},
-        { field: 'graph',headerName: 'Last 7 Days',width: 190,sortable:false,editable: true,renderCell: (params) => <img alt="currenyGraph" src={params.value}/>},
+        { field: 'graph',headerName: 'Last 7 Days',width: 200,headerAlign:'center', align: 'right',sortable:false,editable: true,renderCell: (params) => <img alt="currenyGraph" src={params.value}/>},
     ];
    
     useEffect(() => {
@@ -53,9 +61,18 @@ const DataTable = (props) => {
               if(['id','logo','name','graph'].includes(key)){
                 temp[key] = value
               } else if  (['market_cap','volume_24h'].includes(key)){
-                temp[key] =value.toFixed(6).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                temp[key] =value.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              } else if (['percent_change_24h','percent_change_30d','volume_change_24h'].includes(key)){
+                temp[key] =value.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '%'
+                if (temp[key][0] != '-') {temp[key] = 'ꜛ' + temp[key]} else { temp[key] = 'ꜜ' + temp[key]}
               } else {
-                temp[key] = value.toFixed(5).toString()
+                if (value > 1){
+                  temp[key] = value.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                } else if (Math.abs(value) >= 0.0001){
+                  temp[key] = value.toFixed(4).toString()
+                } else{
+                  temp[key] = value.toFixed(6).toString()
+                }
               }
 
               if (['price','market_cap','volume_24h'].includes(key)){
@@ -73,7 +90,7 @@ const DataTable = (props) => {
     }, [props.currencyData]);
 
   return (
-      <div style={{ height: 850, width: '100%' }}>
+      <div className='cryptoTable' style={{ height: 830, width: '100%' }}>
         <DataGrid
           loading={fetching}
           rows={rows}
@@ -81,7 +98,7 @@ const DataTable = (props) => {
           rowHeight={90}
           pageSize={15}
           rowsPerPageOptions={[5]}
-          checkboxSelection
+          // checkboxSelection
         />
       </div>
   );
