@@ -3,8 +3,29 @@
 - URL for the web application: https://main.dae70rht8vanf.amplifyapp.com/
 - URL for the detailed report: https://github.com/unsel/cryptowatcher/blob/main/CryptoWatcher_Report.pdf
 
+---
 Below you can see the workflow of the application:
 ![Application Workflow](https://github.com/unsel/cryptowatcher/blob/main/src/images/workflow.png)
-
+---
 Below you can see the conttinous deployment mechanism:
 ![Continuous Deployment](https://github.com/unsel/cryptowatcher/blob/main/src/images/cd.png)
+---
+
+<p align="center">
+  <img src="https://github.com/unsel/cryptowatcher/blob/main/src/images/cryptotable.gif" alt="animated" width="750" />
+</p>
+
+---
+
+<p align="center">
+   <img src="https://github.com/unsel/cryptowatcher/blob/main/src/images/wallet.gif" alt="animated" width="750" />
+</p>
+
+---
+
+<p align="center">
+   <img src="https://github.com/unsel/cryptowatcher/blob/main/src/images/converter.gif" alt="animated" width="750" />
+</p>
+
+
+
