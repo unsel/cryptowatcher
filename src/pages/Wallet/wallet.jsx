@@ -16,50 +16,51 @@ const Wallet = (props) => {
     const [fetching,setFetching] = useState(true)
     const [walletValue,setWalletValue] = useState(0)
     const [tempCoinWallet,setTempCoinWallet] = useState({})
-    const [coinOptions,setCoinOptions] = useState(
-      [
-        // { value: 'USD', label: 'USD'},
-        { value: 'Bitcoin', label: 'Bitcoin' },
-        { value: 'Ethereum', label: 'Ethereum' },
-        { value: 'Litecoin', label: 'Litecoin'},
-        { value: 'Binance Coin', label: 'Binance Coin'},
-        { value: 'XRP', label: 'XRP' },
-        { value: 'Cardano', label: 'Cardano' },
-        { value: 'Dogecoin', label: 'Dogecoin' },
-        { value: 'Solana', label: 'Solana' },
-        { value: 'SHIBA INU', label: 'SHIBA INU'},
-        { value: 'Terracoin', label: 'Terracoin'},
-        { value: 'Avalanche', label: 'Avalanche' },
-        { value: 'Quark', label: 'Quark' }
-     ] 
-    )
+    const statisCoinOptions = [
+      // { value: 'USD', label: 'USD'},
+      { value: 'Bitcoin', label: 'Bitcoin' },
+      { value: 'Ethereum', label: 'Ethereum' },
+      { value: 'Litecoin', label: 'Litecoin'},
+      { value: 'Binance Coin', label: 'Binance Coin'},
+      { value: 'XRP', label: 'XRP' },
+      { value: 'Cardano', label: 'Cardano' },
+      { value: 'Dogecoin', label: 'Dogecoin' },
+      { value: 'Solana', label: 'Solana' },
+      { value: 'SHIBA INU', label: 'SHIBA INU'},
+      { value: 'Terracoin', label: 'Terracoin'},
+      { value: 'Avalanche', label: 'Avalanche' },
+      { value: 'Quark', label: 'Quark' }
+   ] 
+    const [coinOptions,setCoinOptions] = useState(statisCoinOptions)
     const [temp,setTemp] = useState({})
-    const [data,setData] = useState({
-        labels: ['Bitcoin', 'Ethereum', 'Solana', 'XRP', 'ShibaINU', 'Litecoin'],
-        datasets: [
-          {
-            label: 'USD Equivalent',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)',
-            ],
-            borderWidth: 1,
-          },
-        ],
-      })
+    const staticData = {
+      labels: ['Bitcoin', 'Ethereum', 'Solana', 'XRP', 'ShibaINU', 'Litecoin'],
+      datasets: [
+        {
+          label: 'USD Equivalent',
+          data: [12, 19, 3, 5, 2, 3],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+          ],
+          borderWidth: 1,
+        },
+      ],
+    }
+    const [data,setData] = useState(staticData)
+    
 
 
       // Fetch wallet data when the user signs in
@@ -204,6 +205,13 @@ const Wallet = (props) => {
 
       setWalletValue(tempWalletValue)
     }
+
+    const resetChanges = () => {
+      setData(staticData)
+      setWalletValue(0)
+      setCoinOptions(statisCoinOptions)
+      setTempCoinWallet({})
+    }
     
     const saveChanges = () => {
       applyChanges()
@@ -247,6 +255,7 @@ const Wallet = (props) => {
               { openPieChart? <div className="chartButtons"><Button  variant="contained" onClick={()=>setOpenPieChart(false)}>CLOSE PIE</Button> </div>: <div className="chartButtons"><Button variant="contained" onClick={()=>setOpenPieChart(true)}>OPEN PIE </Button></div>}
               { openDoughnut? <div className="chartButtons"><Button  variant="contained" onClick={()=>setOpenDoughnut(false)}>CLOSE DOUGHNUT</Button> </div>: <div className="chartButtons"><Button variant="contained" onClick={()=>setOpenDoughnut(true)}>OPEN DOUGHNUT </Button></div>} 
               <div className="applyButtons"><Button  variant="contained" onClick={()=> applyChanges()}> APPLY</Button></div>
+              <div className="applyButtons"><Button  variant="contained" onClick={()=> resetChanges()}> RESET</Button></div>
               { props.userData===undefined ? null:<div className="applyButtons"><Button  variant="contained" onClick={()=> saveChanges()}> SAVE</Button></div>}
             </div>
               
