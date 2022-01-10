@@ -6,7 +6,6 @@ import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import Select from 'react-select'
 import Charts from '../../components/Charts/charts';
-// import walletImage from '../../images/wallet.svg';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const Wallet = (props) => {
@@ -16,7 +15,7 @@ const Wallet = (props) => {
     const [fetching,setFetching] = useState(true)
     const [walletValue,setWalletValue] = useState(0)
     const [tempCoinWallet,setTempCoinWallet] = useState({})
-    const statisCoinOptions = [
+    const staticCoinOptions = [
       // { value: 'USD', label: 'USD'},
       { value: 'Bitcoin', label: 'Bitcoin' },
       { value: 'Ethereum', label: 'Ethereum' },
@@ -31,7 +30,7 @@ const Wallet = (props) => {
       { value: 'Avalanche', label: 'Avalanche' },
       { value: 'Quark', label: 'Quark' }
    ] 
-    const [coinOptions,setCoinOptions] = useState(statisCoinOptions)
+    const [coinOptions,setCoinOptions] = useState(staticCoinOptions)
     const [temp,setTemp] = useState({})
     const staticData = {
       labels: ['Bitcoin', 'Ethereum', 'Solana', 'XRP', 'ShibaINU', 'Litecoin'],
@@ -209,7 +208,7 @@ const Wallet = (props) => {
     const resetChanges = () => {
       setData(staticData)
       setWalletValue(0)
-      setCoinOptions(statisCoinOptions)
+      setCoinOptions(staticCoinOptions)
       setTempCoinWallet({})
     }
     
