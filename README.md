@@ -4,10 +4,12 @@
 - URL for the detailed report: https://github.com/unsel/cryptowatcher/blob/main/CryptoWatcher_Report.pdf
 
 ---
-Below you can see the workflow of the application:
+<h2 align="center">Application Workflow</h2>
+
 ![Application Workflow](https://github.com/unsel/cryptowatcher/blob/main/src/images/workflow.png)
 ---
-Below you can see the conttinous deployment mechanism:
+<h2 align="center">Continuous Deployment Mechanism</h2>
+
 ![Continuous Deployment](https://github.com/unsel/cryptowatcher/blob/main/src/images/cd.png)
 ---
 
